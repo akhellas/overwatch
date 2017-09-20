@@ -3,35 +3,9 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
+var MetricsSchema = new Schema({ Timestamp: 'date' });
 
-var MetricsSchema = new Schema({
-    SiteId: {
-        type: String
-    },
-    Timestamp: {
-        type: Date
-    },
-    Host: {
-        type: String
-    },
-    User: {
-        type: String
-    },
-    Method: {
-        type: String
-    },
-    Uri: {
-        type: String
-    },
-    StatusCode: {
-        type: Number
-    },
-    Size: {
-        type: Number
-    },
-    Duration: {
-        type: Number
-    }
-});
+var VisMetricsSchema = new Schema({});
 
 module.exports = mongoose.model('Metrics', MetricsSchema);
+module.exports = mongoose.model('VizMetrics', VisMetricsSchema);
