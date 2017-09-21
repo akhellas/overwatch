@@ -3,8 +3,6 @@
 var mongoose = require('mongoose');
 var Metrics = mongoose.model('Metrics');
 
-var max = 500;
-
 var dateQuery = function (year, month, date) {
     var timestamp = new Date(year || 2015, month || 0, date || 1);
     var filter = { 
@@ -12,24 +10,24 @@ var dateQuery = function (year, month, date) {
         StatusCode: { $ne: 401 }
     };
 
-    Metrics.find(filter).count(function (err, count) {
-        console.log('query', filter, 'returns', count, 'items');
-    });
+    // Metrics.find(filter).count(function (err, count) {
+    //     console.log('query', filter, 'returns', count, 'items');
+    // });
 
-    Metrics.aggregate([
-        { $match: filter },
-        { $group: { 
-            _id: '$Host' , 
-            count: { $sum: 1 },
-            avgDuration: { $avg: '$Duration' },
-            avgSize: { $avg: '$Size' },
-            errors: { $sum: { $cond: [ { $ne: ['$StatusCode', 200]}, 1, 0] } },
-        }}
-    ]).exec(function (err, result) {
-        console.log(result);
-    });
+    // Metrics.aggregate([
+    //     { $match: filter },
+    //     { $group: { 
+    //         _id: '$Host' , 
+    //         count: { $sum: 1 },
+    //         avgDuration: { $avg: '$Duration' },
+    //         avgSize: { $avg: '$Size' },
+    //         errors: { $sum: { $cond: [ { $ne: ['$StatusCode', 200]}, 1, 0] } },
+    //     }}
+    // ]).exec(function (err, result) {
+    //     console.log(result);
+    // });
 
-    return Metrics.find(filter).limit(max);
+    return Metrics.find(filter);
 }
 
 exports.monthQuery = function (year, month) {

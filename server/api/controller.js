@@ -5,12 +5,29 @@ var Metrics = mongoose.model('Metrics');
 var VizMetrics = mongoose.model('VizMetrics');
 var queries = require('./queries');
 
+var transform = function(metrics) {
+  var data = {
+    renderer: 'global',
+    name: 'edge',
+    entryNode: 'INTERNET',
+    nodes: [
+      {
+        renderer: 'region',
+        layout: 'ltrTree',
+        name: 'gea',
+      }
+    ]
+  };
+
+  return data;
+}
+
 exports.last = function(req, res) {
   queries.lastQuery().exec(function (err, metrics) {
     if (err) {
       res.send(err);
     }
-    res.json(metrics);
+    res.json(transform(metrics));
   });
 };
 
@@ -19,7 +36,7 @@ exports.year = function(req, res) {
     if (err) {
       res.send(err);
     }
-    res.json(metrics);
+    res.json(transform(metrics));
   });
 };
 
@@ -28,7 +45,7 @@ exports.month = function(req, res) {
     if (err) {
       res.send(err);
     }
-    res.json(metrics);
+    res.json(transform(metrics));
   });
 };
 
@@ -37,6 +54,6 @@ exports.date = function(req, res) {
     if (err) {
       res.send(err);
     }
-    res.json(metrics);
+    res.json(transform(metrics));
   });
 };

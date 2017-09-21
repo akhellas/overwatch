@@ -3,6 +3,7 @@ import { HttpModule } from '@angular/http'
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
+import { TrafficService } from './traffic.service';
 import { VizceralCanvasComponent } from './vizceral-canvas/vizceral-canvas.component';
 
 @NgModule({
@@ -14,7 +15,7 @@ import { VizceralCanvasComponent } from './vizceral-canvas/vizceral-canvas.compo
     BrowserModule,
     HttpModule
   ],
-  providers: [],
+  providers: [TrafficService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
