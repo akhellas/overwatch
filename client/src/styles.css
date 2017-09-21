@@ -1,1 +1,6 @@
-/* You can add global styles to this file, and also import other style files */
+canvas {
+    min-width: 90vw;
+    max-width: 90vw;
+    min-height: 90vh;
+    max-height: 90vh;
+}
