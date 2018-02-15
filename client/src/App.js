@@ -4,6 +4,13 @@ import './App.css'
 
 import Overwatch from './components/Overwatch'
 
+const API = 'http://localhost:7000/api/metrics'
+const DELAY = 10000
+const date = new Date()
+const dateString = `${date.getFullYear()}/${date.getMonth() +
+  1}/${date.getDate()}`
+const URL = `${API}/${dateString}`
+
 class App extends Component {
   constructor() {
     super()
@@ -12,7 +19,12 @@ class App extends Component {
     }
   }
   componentDidMount() {
-    fetch('http://localhost:7000/api/metrics/2018/1/1')
+    this.refreshTraffic()
+    setInterval(() => this.refreshTraffic(), DELAY)
+  }
+
+  refreshTraffic() {
+    fetch(URL)
       .then(response => response.json())
       .then(data => {
         console.log(data)

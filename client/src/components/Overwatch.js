@@ -53,14 +53,14 @@ class Overwatch extends React.Component {
     })
 
     setTimeout(() => {
+      this.vizceral.setView()
       //this.vizceral.setView(this.props.view || [], this.props.objectToHighlight)
       this.vizceral.updateData(this.props.traffic)
-      //const perfNow = getPerformanceNow()
-      //this.vizceral.animate(perfNow === null ? 0 : perfNow)
-      this.vizceral.setView()
-      this.vizceral.animate()
+      const perfNow = getPerformanceNow()
+      this.vizceral.animate(perfNow === null ? 0 : perfNow)
+      //this.vizceral.animate()
       this.vizceral.updateBoundingRectCache()
-    }, 10)
+    }, 0)
   }
 
   componentWillReceiveProps(nextProps) {

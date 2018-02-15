@@ -27,8 +27,8 @@ const metrics = db => {
       } 00:00:00.000Z`
       const docs = await db
         .collection(collection)
-        .find({ Timestamp: { $gt: new Date(timestamp) } })
-        .project({ _id: 0, SiteId: 0, Tag: 0, Remarks: 0, Timestamp: 0 })
+        .find({})
+        .project({ _id: 0, SiteId: 0, Tag: 0, Remarks: 0 })
         .toArray()
 
       const nameFromUri = uri => {
@@ -38,7 +38,15 @@ const metrics = db => {
           .pop()
       }
 
-      const data = transform(docs, x => nameFromUri(x.Uri), x => x.User)
+      //const data = transform(docs, x => nameFromUri(x.Uri), x => x.User)
+
+      const data = transform(
+        docs,
+        'localhost',
+        x => x.Method,
+        x => nameFromUri(x.Uri)
+      )
+
       res.json(data)
     } catch (err) {
       console.log(err)

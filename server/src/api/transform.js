@@ -1,19 +1,3 @@
-const root = () => {
-  return {
-    renderer: 'global',
-    name: 'edge',
-    entryNode: 'ENTRY',
-    nodes: [
-      {
-        renderer: 'region',
-        name: 'ENTRY',
-        displayName: 'ENTRY'
-      }
-    ],
-    connections: []
-  }
-}
-
 const hasNode = (root, name) => {
   return root.nodes.find(x => x.name === name) != null
 }
@@ -27,6 +11,7 @@ const hasConnection = (root, source, target) => {
 
 const transform = (
   metrics,
+  entryName,
   regionFn,
   nodeFn,
   regionDisplayFn,
@@ -39,31 +24,30 @@ const transform = (
   const data = {
     renderer: 'global',
     name: 'edge',
-    entryNode: 'ENTRY',
+    entryNode: entryName,
     nodes: [
       {
         renderer: 'region',
-        name: 'ENTRY',
-        displayName: 'ENTRY'
+        name: entryName,
+        displayName: entryName
       }
     ],
     connections: []
   }
-  const entryName = data.entryNode
-
   metrics.forEach(metric => {
     const regionName = regionFn(metric)
     const regionDisplay = regionDisplayFn(metric)
     const nodeName = nodeFn(metric)
     const nodeDisplay = nodeDisplayFn(metric)
+    const timestamp = new Date(metric.Timestamp).valueOf()
     if (!hasNode(data, regionName)) {
       data.nodes.push({
         renderer: 'region',
         name: regionName,
         displayName: regionDisplay,
-        updated: new Date().valueOf(),
+        updated: timestamp,
         maxVolume: 10000,
-        nodes: [{ name: 'ENTRY' }],
+        nodes: [{ name: entryName }],
         connections: []
       })
 
@@ -78,6 +62,8 @@ const transform = (
       })
     }
     const region = data.nodes.find(x => x.name === regionName)
+
+    region.updated = timestamp
 
     if (!hasNode(region, nodeName)) {
       region.nodes.push({
