@@ -1,21 +1,54 @@
 {
-  "name": "overwatch-server",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js"
-  },
+  "name": "synapse-overwatch-server",
+  "version": "0.1.0",
+  "description": "Synapse Overwatch Server",
+  "main": "server.js",
   "author": "ak.hellas@gmail.com",
   "license": "MIT",
+  "scripts": {
+    "dev": "nodemon -w src --exec \"babel-node src --presets env\"",
+    "build": "babel src -s -D -d dist --presets env",
+    "start": "node dist",
+    "prestart": "npm run -s build",
+    "test": "eslint src"
+  },
+  "eslintConfig": {
+    "extends": "eslint:recommended",
+    "parserOptions": {
+      "ecmaVersion": 8,
+      "sourceType": "module"
+    },
+    "env": {
+      "node": true
+    },
+    "rules": {
+      "no-console": 0,
+      "no-unused-vars": 1
+    }
+  },
+  "prettier": {
+    "singleQuote": true,
+    "semi": false
+  },
   "dependencies": {
-    "body-parser": "^1.18.1",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.2",
+    "compression": "^1.7.1",
     "cors": "^2.8.4",
-    "express": "^4.15.4",
-    "mongoose": "^4.11.12"
+    "express": "^4.16.2",
+    "express-async-await": "^1.1.0",
+    "helmet": "^3.9.0",
+    "jsonwebtoken": "^8.1.0",
+    "mongodb": "^3.0.0-rc0",
+    "morgan": "^1.9.0",
+    "socket.io": "^2.0.4"
   },
   "devDependencies": {
-    "nodemon": "^1.12.1"
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "eslint": "^4.14.0",
+    "nodemon": "^1.14.7"
   }
 }
